@@ -82,14 +82,15 @@
                         </ul>
                 </div>
 
-                <div class="card pomodoro-card">
+               <div class="card pomodoro-card">
                     <div class="card-header">
                         <span class="icon-bg red"><i class="fa-solid fa-stopwatch"></i></span>
                         <h3>ポモドーロ</h3>
+                        <button id="pomoSettingsBtn" class="settings-icon-btn"><i class="fa-solid fa-gear"></i></button>
                     </div>
                     <div class="pomo-body">
                         <div id="pomoTimer" class="timer-display">25:00</div>
-                        <div class="pomo-status">25分集中</div>
+                        <div id="pomoStatus" class="pomo-status">25分集中</div>
                         <div class="pomo-controls">
                             <button id="pomoStartBtn" class="btn-primary">開始</button>
                             <button id="pomoResetBtn" class="btn-icon"><i class="fa-solid fa-rotate-right"></i></button>
@@ -231,4 +232,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
