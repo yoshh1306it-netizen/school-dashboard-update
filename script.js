@@ -339,44 +339,132 @@ function saveTodos() {
     renderTodoList();
 }
 
-/* =========================================
-   Feature: Pomodoro
-   ========================================= */
-function initPomodoro() {
-    const display = document.getElementById('pomoTimer');
-    const btn = document.getElementById('pomoStartBtn');
+/* === 5. ポモドーロタイマー (設定機能付き) === */
+    let timerInterval;
+    let isRunning = false;
+    
+    // 初期設定 (分)
+    let workDuration = 25;
+    let breakDuration = 5;
+    
+    let timeLeft = workDuration * 60;
+    let isWorkMode = true; // true = 作業中, false = 休憩中
 
-    const format = (s) => {
-        const m = Math.floor(s / 60).toString().padStart(2,'0');
-        const sc = (s % 60).toString().padStart(2,'0');
-        return `${m}:${sc}`;
-    };
+    const timerDisplay = document.getElementById('pomoTimer');
+    const startBtn = document.getElementById('pomoStartBtn');
+    const resetBtn = document.getElementById('pomoResetBtn');
+    const statusText = document.getElementById('pomoStatus'); // "25分集中"などのテキスト
 
-    btn.addEventListener('click', () => {
-        if(isPomoActive) {
-            // Stop
-            clearInterval(pomoTimerId);
-            isPomoActive = false;
-            btn.textContent = "開始";
+    // 設定関連のDOM
+    const settingsBtn = document.getElementById('pomoSettingsBtn');
+    const modal = document.getElementById('pomoModal');
+    const closeValBtn = document.getElementById('closePomoModal');
+    const saveSettingsBtn = document.getElementById('savePomoSettings');
+    const workInput = document.getElementById('pomoWorkInput');
+    const breakInput = document.getElementById('pomoBreakInput');
+
+    function updateDisplay() {
+        const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+        const s = (timeLeft % 60).toString().padStart(2, '0');
+        timerDisplay.textContent = `${m}:${s}`;
+    }
+    
+    function updateStatusText() {
+        if(isWorkMode) {
+            statusText.textContent = `${workDuration}分集中`;
+            statusText.style.color = "var(--text-sub)";
         } else {
-            // Start
-            isPomoActive = true;
-            btn.textContent = "一時停止";
-            pomoTimerId = setInterval(() => {
-                if(pomoTimeRemaining > 0) {
-                    pomoTimeRemaining--;
-                    display.textContent = format(pomoTimeRemaining);
+            statusText.textContent = `${breakDuration}分休憩`;
+            statusText.style.color = "var(--text-green)";
+        }
+    }
+
+    function toggleTimer() {
+        if (isRunning) {
+            clearInterval(timerInterval);
+            startBtn.textContent = '開始';
+            startBtn.classList.remove('active'); // 色を戻すスタイルがあれば
+        } else {
+            timerInterval = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    updateDisplay();
                 } else {
-                    clearInterval(pomoTimerId);
-                    alert("お疲れ様でした！休憩しましょう。");
-                    isPomoActive = false;
-                    btn.textContent = "開始";
-                    pomoTimeRemaining = 25 * 60;
+                    // タイマー終了時の切り替え
+                    clearInterval(timerInterval);
+                    isRunning = false;
+                    startBtn.textContent = '開始';
+                    
+                    // モード切り替え
+                    isWorkMode = !isWorkMode;
+                    if (isWorkMode) {
+                        timeLeft = workDuration * 60;
+                        alert('休憩終了！作業に戻りましょう。');
+                    } else {
+                        timeLeft = breakDuration * 60;
+                        alert('作業終了！休憩しましょう。');
+                    }
+                    updateDisplay();
+                    updateStatusText();
                 }
             }, 1000);
+            startBtn.textContent = '停止';
+        }
+        isRunning = !isRunning;
+    }
+
+    function resetTimer() {
+        clearInterval(timerInterval);
+        isRunning = false;
+        isWorkMode = true; // リセット時は作業モードに戻す
+        timeLeft = workDuration * 60;
+        updateDisplay();
+        updateStatusText();
+        startBtn.textContent = '開始';
+    }
+
+    // === モーダル操作 ===
+    settingsBtn.addEventListener('click', () => {
+        // 現在の設定値を入力欄に反映して開く
+        workInput.value = workDuration;
+        breakInput.value = breakDuration;
+        modal.classList.add('open');
+    });
+
+    closeValBtn.addEventListener('click', () => {
+        modal.classList.remove('open');
+    });
+
+    // モーダルの外側をクリックしたら閉じる
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('open');
         }
     });
 
+    // 設定保存
+    saveSettingsBtn.addEventListener('click', () => {
+        const newWork = parseInt(workInput.value);
+        const newBreak = parseInt(breakInput.value);
+
+        if (newWork > 0 && newBreak > 0) {
+            workDuration = newWork;
+            breakDuration = newBreak;
+            
+            // 設定を保存したらタイマーをリセットして反映
+            resetTimer();
+            modal.classList.remove('open');
+        } else {
+            alert("時間は1分以上に設定してください");
+        }
+    });
+
+    startBtn.addEventListener('click', toggleTimer);
+    resetBtn.addEventListener('click', resetTimer);
+
+    // 初期化実行
+    updateDisplay();
+    updateStatusText();
     document.getElementById('pomoResetBtn').addEventListener('click', () => {
         clearInterval(pomoTimerId);
         isPomoActive = false;
@@ -519,4 +607,5 @@ function renderTestList() {
 window.deleteTest = (idx) => {
     adminData.tests.splice(idx, 1);
     renderTestList();
+
 };
