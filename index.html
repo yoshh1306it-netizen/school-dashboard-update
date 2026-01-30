@@ -229,8 +229,28 @@
         </section>
 
     </main>
+    <div id="pomoModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>タイマー設定</h3>
+                <button id="closePomoModal" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>作業時間 (分)</label>
+                    <input type="number" id="pomoWorkInput" value="25" min="1" max="90">
+                </div>
+                <div class="form-group">
+                    <label>休憩時間 (分)</label>
+                    <input type="number" id="pomoBreakInput" value="5" min="1" max="30">
+                </div>
+                <button id="savePomoSettings" class="btn-primary full" style="background-color: #1a1a1a;">設定を保存</button>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
 
 </html>
+
