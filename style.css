@@ -175,4 +175,41 @@ main { padding: 24px; max-width: 1200px; margin: 0 auto; }
     .dashboard-grid { display: flex; flex-direction: column; }
     .top-nav { padding: 1rem; }
     .brand-text { display: none; } /* スマホではロゴのみなど簡略化 */
+/* === ポモドーロ設定アイコン === */
+.settings-icon-btn {
+    margin-left: auto;
+    background: none; border: none;
+    color: var(--text-sub); cursor: pointer;
+    font-size: 1.1rem; transition: 0.2s;
+}
+.settings-icon-btn:hover { color: var(--text-main); transform: rotate(45deg); }
+
+/* === モーダルウィンドウ === */
+.modal-overlay {
+    display: none; /* 初期状態は非表示 */
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5); z-index: 1000;
+    justify-content: center; align-items: center;
+    animation: fadeIn 0.2s ease;
+}
+.modal-overlay.open { display: flex; }
+
+.modal-box {
+    background: white; width: 90%; max-width: 400px;
+    border-radius: 12px; padding: 24px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+.modal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 20px;
+}
+.modal-header h3 { font-size: 1.1rem; font-weight: bold; }
+.close-btn {
+    background: none; border: none; font-size: 1.5rem;
+    cursor: pointer; color: var(--text-sub);
+}
+.modal-body .form-group { margin-bottom: 15px; }
+.modal-body label { font-size: 0.9rem; font-weight: bold; display: block; margin-bottom: 5px; }
+.modal-body input { font-size: 1rem; padding: 10px; }
+
 }
