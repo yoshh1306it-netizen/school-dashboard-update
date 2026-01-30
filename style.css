@@ -79,11 +79,28 @@ main { padding: 24px; max-width: 1200px; margin: 0 auto; }
 
 /* 1. 現在時刻（グラデーション） */
 .time-card {
-    grid-column: span 12;
-    background: linear-gradient(135deg, #5B4DFF 0%, #8F94FB 100%);
-    color: white; border: none;
-    display: flex; flex-direction: column; justify-content: center;
+    /* 左上から右下にかけての紫のグラデーション */
+    background: linear-gradient(135deg, #7B61FF 0%, #AB8AFF 100%);
+    color: white;
+    padding: 24px;
+    border-radius: 20px; /* 画像のように少し丸みを強くするとより近くなります */
+    box-shadow: 0 10px 20px rgba(123, 97, 255, 0.2); /* 軽く光彩を放つ影 */
+    border: none;
 }
+
+/* 中の文字の余白などを微調整 */
+.time-card h2 {
+    font-size: 4rem; /* 数字を大きく */
+    font-weight: 800;
+    margin: 10px 0;
+    letter-spacing: -2px;
+}
+
+.time-card p {
+    font-size: 1.1rem;
+    opacity: 0.9; /* 日付を少しだけ透かすとおしゃれです */
+}
+
 @media (min-width: 768px) { .time-card { grid-column: span 5; } }
 .time-header { font-size: 0.9rem; opacity: 0.9; display: flex; align-items: center; gap: 6px; }
 .time-main { font-size: 3rem; font-weight: bold; line-height: 1.2; margin: 10px 0; font-variant-numeric: tabular-nums; }
@@ -213,3 +230,4 @@ main { padding: 24px; max-width: 1200px; margin: 0 auto; }
 .modal-body input { font-size: 1rem; padding: 10px; }
 
 }
+
