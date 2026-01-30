@@ -1,0 +1,178 @@
+/* ベース設定 */
+:root {
+    --bg-body: #F3F6FD; /* 明るいグレー青 */
+    --bg-card: #FFFFFF;
+    --text-main: #2D3748;
+    --text-sub: #718096;
+    --primary: #5B4DFF;
+    --primary-hover: #4839eb;
+    --border: #E2E8F0;
+    
+    /* アイコン背景色 */
+    --bg-green: #E6FFFA; --text-green: #38B2AC;
+    --bg-blue: #EBF8FF; --text-blue: #4299E1;
+    --bg-orange: #FFFAF0; --text-orange: #ED8936;
+    --bg-red: #FFF5F5; --text-red: #F56565;
+    --bg-yellow: #FFFFF0; --text-yellow: #ECC94B;
+    --bg-purple: #FAF5FF; --text-purple: #9F7AEA;
+    --bg-indigo: #EBF4FF; --text-indigo: #667EEA;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; }
+body { background-color: var(--bg-body); color: var(--text-main); min-height: 100vh; }
+ul { list-style: none; }
+
+/* ヘッダー */
+.top-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 2rem; background: var(--bg-card);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03); position: sticky; top: 0; z-index: 100;
+}
+.brand { display: flex; gap: 12px; align-items: center; }
+.brand-icon { 
+    background: var(--primary); color: white; width: 40px; height: 40px; 
+    border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+}
+.brand-text h1 { font-size: 1.1rem; font-weight: bold; }
+.brand-text p { font-size: 0.8rem; color: var(--text-sub); }
+
+.nav-actions { display: flex; gap: 10px; align-items: center; }
+.class-badge {
+    background: var(--bg-body); padding: 6px 12px; border-radius: 20px;
+    font-size: 0.9rem; font-weight: bold; color: var(--text-main); display: flex; gap: 6px; align-items: center;
+}
+.nav-btn {
+    border: none; background: transparent; padding: 8px 16px; 
+    border-radius: 8px; cursor: pointer; color: var(--text-sub); font-weight: bold; transition: 0.2s;
+}
+.nav-btn:hover, .nav-btn.active { background: var(--bg-body); color: var(--primary); }
+.admin-btn { border: 1px solid var(--border); }
+
+/* レイアウト */
+main { padding: 24px; max-width: 1200px; margin: 0 auto; }
+.page { display: none; animation: fadeIn 0.3s ease; }
+.page.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.dashboard-grid {
+    display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px;
+}
+.card {
+    background: var(--bg-card); border-radius: 16px; padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.03);
+}
+.card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.card-header h3 { font-size: 1rem; font-weight: 600; }
+.sub-text { margin-left: auto; font-size: 0.8rem; color: var(--text-sub); }
+.icon-bg {
+    width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
+}
+.green { background: var(--bg-green); color: var(--text-green); }
+.blue { background: var(--bg-blue); color: var(--text-blue); }
+.orange { background: var(--bg-orange); color: var(--text-orange); }
+.red { background: var(--bg-red); color: var(--text-red); }
+.yellow { background: var(--bg-yellow); color: var(--text-yellow); }
+.purple { background: var(--bg-purple); color: var(--text-purple); }
+.indigo { background: var(--bg-indigo); color: var(--text-indigo); }
+
+/* === 個別カードスタイル === */
+
+/* 1. 現在時刻（グラデーション） */
+.time-card {
+    grid-column: span 12;
+    background: linear-gradient(135deg, #5B4DFF 0%, #8F94FB 100%);
+    color: white; border: none;
+    display: flex; flex-direction: column; justify-content: center;
+}
+@media (min-width: 768px) { .time-card { grid-column: span 5; } }
+.time-header { font-size: 0.9rem; opacity: 0.9; display: flex; align-items: center; gap: 6px; }
+.time-main { font-size: 3rem; font-weight: bold; line-height: 1.2; margin: 10px 0; font-variant-numeric: tabular-nums; }
+.time-date { font-size: 1rem; opacity: 0.9; }
+
+/* 2. 次の授業 */
+.next-class-card { grid-column: span 12; }
+@media (min-width: 768px) { .next-class-card { grid-column: span 7; } }
+.next-class-body { padding: 10px 0; }
+.next-class-body h2 { font-size: 2rem; margin-bottom: 10px; }
+.tags { display: flex; gap: 10px; }
+.tag { padding: 4px 10px; border-radius: 6px; font-size: 0.85rem; background: var(--bg-body); color: var(--text-sub); }
+.time-tag { background: var(--bg-green); color: var(--text-green); font-weight: bold; }
+
+/* 3. 時間割 */
+.schedule-card { grid-column: span 12; }
+@media (min-width: 768px) { .schedule-card { grid-column: span 6; } }
+.schedule-list li {
+    display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border);
+}
+.schedule-list li:last-child { border-bottom: none; }
+.schedule-list li.active {
+    background: var(--bg-indigo); color: var(--text-indigo);
+    padding-left: 10px; padding-right: 10px; border-radius: 8px; border-bottom: none; font-weight: bold;
+}
+
+/* 4. ToDoリスト (拡大: span 4 -> span 6) */
+.todo-card { grid-column: span 12; }
+@media (min-width: 768px) { .todo-card { grid-column: span 6; } }
+.todo-input-group { display: flex; gap: 5px; margin-bottom: 10px; }
+.todo-input-group input { flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 6px; }
+.progress-bar { height: 4px; background: var(--text-green); transition: 0.3s; border-radius: 2px; }
+.progress-container { background: var(--border); height: 4px; border-radius: 2px; margin-bottom: 10px; }
+.todo-list-items li { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
+.todo-list-items li.done span { text-decoration: line-through; color: var(--text-sub); }
+
+/* 5. ポモドーロ */
+.pomodoro-card { grid-column: span 12; text-align: center; }
+@media (min-width: 768px) { .pomodoro-card { grid-column: span 4; } }
+.timer-display { font-size: 3rem; font-weight: bold; color: var(--text-red); margin: 10px 0; }
+.pomo-controls { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
+.btn-icon { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border); background: white; cursor: pointer; }
+
+/* 6. テストカウントダウン (縮小: span 6 -> span 4) */
+.test-card { grid-column: span 12; background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%); color: white; border: none; }
+@media (min-width: 768px) { .test-card { grid-column: span 4; } }
+.test-card .icon-bg { background: rgba(255,255,255,0.2); color: white; }
+.countdown-timer { font-size: 1.5rem; font-weight: bold; margin-top: 5px; }
+
+/* 7. カレンダー */
+.calendar-card { grid-column: span 12; }
+@media (min-width: 768px) { .calendar-card { grid-column: span 4; } }
+.calendar-content { height: 200px; background: var(--bg-body); border-radius: 8px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; }
+.placeholder-text { font-size: 0.8rem; color: var(--text-sub); }
+
+/* 汎用コンポーネント */
+.btn-primary {
+    background: var(--primary); color: white; border: none; padding: 10px 20px;
+    border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s;
+}
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-save { background: #2D3748; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+
+.input-field { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 10px; }
+.half { width: 48%; display: inline-block; }
+.full { width: 100%; }
+
+/* 設定画面・ログイン画面 */
+.single-column-container, .login-wrapper { max-width: 500px; margin: 40px auto; }
+.back-link { border: none; background: none; color: var(--text-sub); cursor: pointer; margin-bottom: 10px; display: inline-flex; align-items: center; gap: 5px; }
+.login-box { text-align: center; padding: 40px; }
+.login-header { margin-bottom: 20px; color: var(--primary); font-size: 1.5rem; }
+.error-msg { color: #E53E3E; font-size: 0.9rem; margin-top: 10px; display: none; }
+
+/* 管理者画面 */
+.admin-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid var(--border); }
+.tab-btn { padding: 10px 20px; border: none; background: none; font-weight: bold; color: var(--text-sub); cursor: pointer; border-bottom: 3px solid transparent; }
+.tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+.schedule-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
+.schedule-row label { width: 40px; font-weight: bold; }
+.simple-list li { padding: 10px; background: var(--bg-body); margin-bottom: 5px; border-radius: 6px; display: flex; justify-content: space-between; }
+.save-area { margin-top: 40px; text-align: center; }
+.note { font-size: 0.8rem; color: var(--text-sub); margin-top: 10px; }
+
+/* モバイル対応微調整 */
+@media (max-width: 768px) {
+    .dashboard-grid { display: flex; flex-direction: column; }
+    .top-nav { padding: 1rem; }
+    .brand-text { display: none; } /* スマホではロゴのみなど簡略化 */
+}

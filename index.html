@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="top-nav">
+        <div class="brand">
+            <div class="brand-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div class="brand-text">
+                <h1>School Dashboard</h1>
+                <p id="dynamicGreeting">読み込み中...</p>
+            </div>
+        </div>
+        <div class="nav-actions">
+            <div class="class-badge">
+                <i class="fa-solid fa-users"></i>
+                <span id="headerClassDisplay">--HR</span>
+            </div>
+            <button id="btnHome" class="nav-btn active">ホーム</button>
+            <button id="btnSettings" class="nav-btn">設定</button>
+            <button id="btnAdmin" class="nav-btn admin-btn">管理者</button>
+        </div>
+    </header>
+
+    <main id="app">
+        
+        <section id="page-home" class="page active">
+            <div class="dashboard-grid">
+                
+                <div class="card time-card">
+                    <div class="time-header">
+                        <i class="fa-regular fa-clock"></i> 現在時刻
+                    </div>
+                    <div id="currentTime" class="time-main">00:00:00</div>
+                    <div id="currentDate" class="time-date">----年--月--日 (--)</div>
+                </div>
+
+                <div class="card next-class-card">
+                    <div class="card-header">
+                        <span class="icon-bg green"><i class="fa-solid fa-book-open"></i></span>
+                        <h3>次の授業</h3>
+                    </div>
+                    <div class="next-class-body">
+                        <h2 id="nextSubject">読み込み中...</h2>
+                        <div class="tags">
+                            <span id="nextPeriodBadge" class="tag">--限</span>
+                            <span id="timeUntilNext" class="tag time-tag">--分後</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card schedule-card">
+                    <div class="card-header">
+                        <span class="icon-bg blue"><i class="fa-regular fa-calendar-days"></i></span>
+                        <h3>今日の時間割</h3>
+                        <span id="scheduleDay" class="sub-text">--曜日</span>
+                    </div>
+                    <ul id="dailyScheduleList" class="schedule-list">
+                        </ul>
+                </div>
+
+                <div class="card todo-card">
+                    <div class="card-header">
+                        <span class="icon-bg yellow"><i class="fa-solid fa-list-check"></i></span>
+                        <h3>ToDoリスト</h3>
+                        <span id="todoCount" class="sub-text">0/0</span>
+                    </div>
+                    <div class="todo-input-group">
+                        <input type="text" id="newTodoInput" placeholder="新しいタスクを追加...">
+                        <button id="addTodoBtn"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <div class="progress-container">
+                        <div id="todoProgress" class="progress-bar" style="width: 0%"></div>
+                    </div>
+                    <ul id="todoList" class="todo-list-items">
+                        </ul>
+                </div>
+
+                <div class="card pomodoro-card">
+                    <div class="card-header">
+                        <span class="icon-bg red"><i class="fa-solid fa-stopwatch"></i></span>
+                        <h3>ポモドーロ</h3>
+                    </div>
+                    <div class="pomo-body">
+                        <div id="pomoTimer" class="timer-display">25:00</div>
+                        <div class="pomo-status">25分集中</div>
+                        <div class="pomo-controls">
+                            <button id="pomoStartBtn" class="btn-primary">開始</button>
+                            <button id="pomoResetBtn" class="btn-icon"><i class="fa-solid fa-rotate-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card test-card">
+                    <div class="card-header">
+                        <span class="icon-bg orange"><i class="fa-solid fa-flag-checkered"></i></span>
+                        <h3>次のテストまで</h3>
+                    </div>
+                    <div id="testContainer" class="test-body">
+                        <h4 id="targetTestName">予定なし</h4>
+                        <div class="countdown-timer">
+                            あと <span id="cdDays">0</span> 日
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card calendar-card">
+                    <div class="card-header">
+                        <span class="icon-bg indigo"><i class="fa-regular fa-calendar"></i></span>
+                        <h3>個人スケジュール</h3>
+                    </div>
+                    <div class="calendar-wrapper">
+                        <div id="calendarContent" class="calendar-content">
+                            <p class="placeholder-text">設定画面でiCal URLを登録してください</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section id="page-settings" class="page">
+            <div class="single-column-container">
+                <button class="back-link" onclick="location.reload()"><i class="fa-solid fa-arrow-left"></i> ダッシュボードに戻る</button>
+                
+                <div class="card settings-box">
+                    <div class="box-header">
+                        <span class="icon-bg purple"><i class="fa-solid fa-user-gear"></i></span>
+                        <h2>個人設定</h2>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>クラス選択</label>
+                        <select id="settingClassSelect" class="input-field">
+                            </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Googleカレンダー連携 (iCal URL)</label>
+                        <input type="text" id="icalUrlInput" class="input-field" placeholder="https://calendar.google.com/...">
+                        <small>Googleカレンダー設定 > 統合 > iCal形式の非公開URL</small>
+                    </div>
+
+                    <button id="saveSettingsBtn" class="btn-primary full">設定を保存</button>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="page-admin-login" class="page">
+            <div class="login-wrapper">
+                <div class="card login-box">
+                    <div class="login-header">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <h2>管理者認証</h2>
+                    </div>
+                    <input type="password" id="adminPasswordInput" class="input-field" placeholder="パスワード (1234)">
+                    <button id="adminLoginBtn" class="btn-primary full">ログイン</button>
+                    <p id="loginError" class="error-msg">パスワードが違います</p>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="page-admin-dashboard" class="page">
+            <div class="admin-top">
+                <button id="adminBackBtn" class="back-link"><i class="fa-solid fa-arrow-left"></i> ログアウト</button>
+                <h2>管理者設定</h2>
+            </div>
+
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-target="tab-timings">時限設定</button>
+                <button class="tab-btn" data-target="tab-schedule">時間割</button>
+                <button class="tab-btn" data-target="tab-tests">テスト</button>
+            </div>
+
+            <div class="admin-content-area">
+                <div id="tab-timings" class="tab-panel active">
+                    <div class="card">
+                        <h3>時限開始・終了時刻</h3>
+                        <div id="timingsEditor"></div>
+                    </div>
+                </div>
+
+                <div id="tab-schedule" class="tab-panel">
+                    <div class="card">
+                        <h3>クラス別時間割</h3>
+                        <div class="filters">
+                            <select id="adminClassSelect" class="input-field half"></select>
+                            <select id="adminDaySelect" class="input-field half">
+                                <option value="Mon">月曜日</option>
+                                <option value="Tue">火曜日</option>
+                                <option value="Wed">水曜日</option>
+                                <option value="Thu">木曜日</option>
+                                <option value="Fri">金曜日</option>
+                            </select>
+                        </div>
+                        <div id="scheduleEditor"></div>
+                    </div>
+                </div>
+
+                <div id="tab-tests" class="tab-panel">
+                    <div class="card">
+                        <h3>テスト日程</h3>
+                        <div class="add-test-row">
+                            <input type="text" id="newTestName" class="input-field" placeholder="テスト名">
+                            <input type="date" id="newTestDate" class="input-field">
+                            <button id="addTestBtn" class="btn-primary">追加</button>
+                        </div>
+                        <ul id="adminTestList" class="simple-list"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="save-area">
+                <button id="downloadJsonBtn" class="btn-save full">
+                    <i class="fa-solid fa-download"></i> 設定データを書き出し (JSON)
+                </button>
+                <p class="note">※ ダウンロードしたファイルをGitHubリポジトリにアップロードしてください。</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
